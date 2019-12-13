@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Products.Infra.IoC;
-using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace ProductsAPI
 {
@@ -24,11 +25,11 @@ namespace ProductsAPI
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new Info
+                s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "Products API",
-                    Contact = new Contact { Name = "Leonardo Lima", Url = "https://github.com/leonardolima94" }
+                    Contact = new OpenApiContact { Name = "Leonardo Lima", Url = new Uri("https://github.com/leonardolima94") }
                 });
             });
 
