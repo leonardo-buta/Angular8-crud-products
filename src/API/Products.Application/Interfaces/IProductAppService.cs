@@ -1,10 +1,10 @@
-﻿using Products.Domain;
+﻿using Products.Domain.DTO;
 using System.Threading.Tasks;
 
 namespace Products.Application.Interfaces
 {
     public interface IProductAppService
     {
-        Task Add(ProductDto product);
+        Task Add(ProductDto productDto);
     }
 }

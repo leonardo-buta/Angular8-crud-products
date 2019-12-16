@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Interfaces;
 using Products.Domain;
+using Products.Domain.DTO;
 
 namespace Products.API.Controllers
 {

@@ -4,6 +4,7 @@ using Products.Application.Services;
 using Products.Domain.Interfaces;
 using Products.Infra.Data.Context;
 using Products.Infra.Data.Repository;
+using Products.Infra.Data.UoW;
 
 namespace Products.Infra.IoC
 {
@@ -19,6 +20,9 @@ namespace Products.Infra.IoC
 
             // Infra
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            // UoW
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

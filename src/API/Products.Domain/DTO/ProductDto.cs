@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Products.Domain
+namespace Products.Domain.DTO
 {
     public class ProductDto
     {
@@ -8,5 +8,7 @@ namespace Products.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public DateTime CreationDate { get; set; }
+        public bool Active { get; set; }
     }
 }

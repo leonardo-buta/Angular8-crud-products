@@ -64,7 +64,7 @@ namespace Products.Infra.Data.Context
 
         public void Dispose()
         {
-            Session.Dispose();
+            Session?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
