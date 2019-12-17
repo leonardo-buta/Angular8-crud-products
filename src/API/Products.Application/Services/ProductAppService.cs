@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Products.Application.Interfaces;
-using Products.Domain;
 using Products.Domain.DTO;
 using Products.Domain.Interfaces;
 using Products.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Products.Application.Services
@@ -30,6 +30,12 @@ namespace Products.Application.Services
 
             _productRepository.Add(product);
             await _uow.Commit();
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetAll()
+        {
+            var results = _mapper.Map<IEnumerable<ProductDto>>(await _productRepository.GetAll());
+            return results;            
         }
     }
 }
