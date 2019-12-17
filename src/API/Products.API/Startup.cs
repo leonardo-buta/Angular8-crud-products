@@ -37,6 +37,9 @@ namespace ProductsAPI
             // Services
             RegisterServices(services);
 
+            // MongoDb configurations
+            RegisterMongoDbConfigurations();
+
             // AutoMapper
             services.AddAutoMapperSetup();
         }
@@ -77,6 +80,11 @@ namespace ProductsAPI
         private static void RegisterServices(IServiceCollection services)
         {
             NativeInjectorBootStrapper.RegisterServices(services);
+        }
+
+        private static void RegisterMongoDbConfigurations()
+        {
+            MongoDbConfiguration.RegisterMongoDbConfigurations();
         }
     }
 }

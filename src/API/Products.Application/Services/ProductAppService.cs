@@ -4,6 +4,7 @@ using Products.Domain;
 using Products.Domain.DTO;
 using Products.Domain.Interfaces;
 using Products.Domain.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Products.Application.Services
@@ -23,7 +24,11 @@ namespace Products.Application.Services
 
         public async Task Add(ProductDto productDto)
         {
-            _productRepository.Add(_mapper.Map<Product>(productDto));
+            var product = _mapper.Map<Product>(productDto);
+            product.CreationDate = DateTime.Now;
+            product.Active = true;
+
+            _productRepository.Add(product);
             await _uow.Commit();
         }
     }

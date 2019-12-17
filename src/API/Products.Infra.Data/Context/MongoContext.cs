@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -17,24 +15,10 @@ namespace Products.Infra.Data.Context
         private readonly List<Func<Task>> _commands;
 
         public MongoContext(IConfiguration configuration)
-        {
-            BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
+        {            
             _commands = new List<Func<Task>>();
-
-            RegisterConventions();
-
             MongoClient = new MongoClient(configuration.GetConnectionString("MongoConnection"));
             Database = MongoClient.GetDatabase(configuration.GetConnectionString("MongoDatabaseName"));
-        }
-
-        private void RegisterConventions()
-        {
-            var pack = new ConventionPack
-            {
-                new IgnoreExtraElementsConvention(true),
-                new IgnoreIfDefaultConvention(true)
-            };
-            ConventionRegistry.Register("Conventions", pack, t => true);
         }
 
         public async Task<int> SaveChanges()
