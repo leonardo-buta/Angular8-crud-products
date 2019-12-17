@@ -8,7 +8,7 @@ namespace Products.API.Configurations
     {
         public static void AddAutoMapperSetup(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(ProductsAPI.Startup));
+            services.AddAutoMapper(typeof(AutoMapperConfig));
             AutoMapperConfig.RegisterMappings();
         }
     }
