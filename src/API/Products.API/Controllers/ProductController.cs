@@ -37,9 +37,17 @@ namespace Products.API.Controllers
 
         // GET: api/Product/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return "value";
+            try
+            {
+                var result = await _productAppService.GetById(id);
+                return result == null ? (IActionResult)NotFound() : Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
         // POST: api/Product

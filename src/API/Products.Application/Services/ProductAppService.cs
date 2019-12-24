@@ -35,7 +35,13 @@ namespace Products.Application.Services
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
             var results = _mapper.Map<IEnumerable<ProductDto>>(await _productRepository.GetAll());
-            return results;            
+            return results;
+        }
+
+        public async Task<ProductDto> GetById(Guid id)
+        {
+            var result = _mapper.Map<ProductDto>(await _productRepository.GetById(id));
+            return result;
         }
     }
 }
