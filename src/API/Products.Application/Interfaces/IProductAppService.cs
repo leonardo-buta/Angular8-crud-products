@@ -10,5 +10,6 @@ namespace Products.Application.Interfaces
         Task Add(ProductDto productDto);
         Task<IEnumerable<ProductDto>> GetAll();
         Task<ProductDto> GetById(Guid id);
+        Task<bool> Update(Guid id, ProductDto productDto);
     }
 }

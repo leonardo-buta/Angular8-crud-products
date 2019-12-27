@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,8 @@ namespace Products.Domain.Interfaces
         void Add(TEntity obj);
         Task<TEntity> GetById(Guid id);
         Task<IEnumerable<TEntity>> GetAll();
-        void Update(TEntity obj);
+        void Update(Guid id, UpdateDefinition<TEntity> update);
         void Remove(Guid id);
+        Task<long> Count(FilterDefinition<TEntity> filter);
     }
 }

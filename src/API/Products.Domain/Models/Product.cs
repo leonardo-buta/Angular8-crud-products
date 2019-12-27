@@ -8,6 +8,7 @@ namespace Products.Domain.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public DateTime CreationDate { get; set; }
+        public DateTime LastModified { get; set; }
         public bool Active { get; set; }
     }
 }

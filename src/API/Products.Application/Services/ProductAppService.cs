@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MongoDB.Driver;
 using Products.Application.Interfaces;
 using Products.Domain.DTO;
 using Products.Domain.Interfaces;
@@ -13,7 +14,7 @@ namespace Products.Application.Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        private readonly IProductRepository _productRepository;        
+        private readonly IProductRepository _productRepository;
 
         public ProductAppService(IUnitOfWork uow, IMapper mapper, IProductRepository productRepository)
         {
@@ -26,6 +27,7 @@ namespace Products.Application.Services
         {
             var product = _mapper.Map<Product>(productDto);
             product.CreationDate = DateTime.Now;
+            product.LastModified = product.CreationDate;
             product.Active = true;
 
             _productRepository.Add(product);
@@ -42,6 +44,26 @@ namespace Products.Application.Services
         {
             var result = _mapper.Map<ProductDto>(await _productRepository.GetById(id));
             return result;
+        }
+
+        public async Task<bool> Update(Guid id, ProductDto productDto)
+        {
+            var count = await _productRepository.Count(Builders<Product>.Filter.Eq(x => x.Id, id));
+
+            if (count == 0) return false;
+
+            var update = Builders<Product>.Update
+                .Set(x => x.Name, productDto.Name)
+                .Set(x => x.Description, productDto.Description)
+                .Set(x => x.Price, productDto.Price)
+                .Set(x => x.Active, productDto.Active)
+                .CurrentDate(x => x.LastModified);
+
+            _productRepository.Update(id, update);
+            
+            await _uow.Commit();
+
+            return true;
         }
     }
 }

@@ -32,15 +32,17 @@ namespace Products.Infra.Data.Repository
         {
             var data = await _dbSet.FindAsync(Builders<TEntity>.Filter.Empty);
             return data.ToList();
-        }        
+        }
 
-        public virtual void Update(TEntity obj)
+        public virtual void Update(Guid id, UpdateDefinition<TEntity> update)
         {
-            var test = obj.GetType().GetProperty("Id").GetValue(obj);
+            _context.AddCommand(() => _dbSet.UpdateOneAsync(Builders<TEntity>.Filter.Eq("_id", id), update));
+        }
 
-            _context.AddCommand(() => _dbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id",
-                obj.GetType().GetProperty("Id").GetValue(obj)),
-                obj));
+        public virtual async Task<long> Count(FilterDefinition<TEntity> filter)
+        {
+            var count = await _dbSet.CountDocumentsAsync(filter);
+            return count;
         }
 
         public void Dispose()

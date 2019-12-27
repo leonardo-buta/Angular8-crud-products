@@ -67,8 +67,17 @@ namespace Products.API.Controllers
 
         // PUT: api/Product/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(Guid id, [FromBody] ProductDto product)
         {
+            try
+            {
+                var success = await _productAppService.Update(id, product);
+                return success ? Ok() : (IActionResult)NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
