@@ -65,5 +65,11 @@ namespace Products.Application.Services
 
             return true;
         }
+
+        public async Task Delete(Guid id)
+        {
+            _productRepository.Delete(Builders<Product>.Filter.Eq(x => x.Id, id));
+            await _uow.Commit();
+        }
     }
 }

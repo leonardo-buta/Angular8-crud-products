@@ -11,5 +11,6 @@ namespace Products.Application.Interfaces
         Task<IEnumerable<ProductDto>> GetAll();
         Task<ProductDto> GetById(Guid id);
         Task<bool> Update(Guid id, ProductDto productDto);
+        Task Delete(Guid id);
     }
 }

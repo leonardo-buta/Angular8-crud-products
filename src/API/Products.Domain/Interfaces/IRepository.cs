@@ -13,5 +13,6 @@ namespace Products.Domain.Interfaces
         void Update(Guid id, UpdateDefinition<TEntity> update);
         void Remove(Guid id);
         Task<long> Count(FilterDefinition<TEntity> filter);
+        void Delete(FilterDefinition<TEntity> filter);
     }
 }

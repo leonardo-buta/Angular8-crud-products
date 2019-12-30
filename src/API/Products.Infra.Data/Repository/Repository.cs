@@ -45,6 +45,11 @@ namespace Products.Infra.Data.Repository
             return count;
         }
 
+        public virtual void Delete(FilterDefinition<TEntity> filter)
+        {
+            _context.AddCommand(() => _dbSet.DeleteOneAsync(filter));
+        }
+
         public void Dispose()
         {
             _context?.Dispose();

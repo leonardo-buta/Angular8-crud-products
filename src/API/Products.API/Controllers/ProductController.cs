@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Interfaces;
-using Products.Domain;
 using Products.Domain.DTO;
 
 namespace Products.API.Controllers
@@ -20,7 +18,6 @@ namespace Products.API.Controllers
             _productAppService = productAppService;
         }
 
-        // GET: api/Product
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -35,7 +32,6 @@ namespace Products.API.Controllers
             }
         }
 
-        // GET: api/Product/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -50,7 +46,6 @@ namespace Products.API.Controllers
             }
         }
 
-        // POST: api/Product
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProductDto product)
         {
@@ -65,7 +60,6 @@ namespace Products.API.Controllers
             }
         }
 
-        // PUT: api/Product/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] ProductDto product)
         {
@@ -80,10 +74,18 @@ namespace Products.API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            try
+            {
+                await _productAppService.Delete(id);
+                return StatusCode(StatusCodes.Status204NoContent);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
     }
 }
