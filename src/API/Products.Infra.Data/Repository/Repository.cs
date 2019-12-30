@@ -20,39 +20,16 @@ namespace Products.Infra.Data.Repository
 
         public virtual void Add(TEntity obj) => _context.AddCommand(async () => await _dbSet.InsertOneAsync(obj));
 
-        public virtual void Remove(Guid id) => _context.AddCommand(() => _dbSet.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id)));
+        public virtual void Delete(FilterDefinition<TEntity> filter) => _context.AddCommand(async () => await _dbSet.DeleteOneAsync(filter));
 
-        public virtual async Task<TEntity> GetById(Guid id)
-        {
-            var data = await _dbSet.FindAsync<TEntity>(Builders<TEntity>.Filter.Eq("_id", id));
-            return data.FirstOrDefault();
-        }
+        public virtual async Task<TEntity> GetById(Guid id) => (await _dbSet.FindAsync<TEntity>(Builders<TEntity>.Filter.Eq("_id", id))).FirstOrDefault();
 
-        public virtual async Task<IEnumerable<TEntity>> GetAll()
-        {
-            var data = await _dbSet.FindAsync(Builders<TEntity>.Filter.Empty);
-            return data.ToList();
-        }
+        public virtual async Task<IEnumerable<TEntity>> GetAll() => (await _dbSet.FindAsync(Builders<TEntity>.Filter.Empty)).ToList();
 
-        public virtual void Update(Guid id, UpdateDefinition<TEntity> update)
-        {
-            _context.AddCommand(() => _dbSet.UpdateOneAsync(Builders<TEntity>.Filter.Eq("_id", id), update));
-        }
+        public virtual void Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update) => _context.AddCommand(async () => await _dbSet.UpdateOneAsync(filter, update));
 
-        public virtual async Task<long> Count(FilterDefinition<TEntity> filter)
-        {
-            var count = await _dbSet.CountDocumentsAsync(filter);
-            return count;
-        }
+        public virtual async Task<long> Count(FilterDefinition<TEntity> filter) => await _dbSet.CountDocumentsAsync(filter);
 
-        public virtual void Delete(FilterDefinition<TEntity> filter)
-        {
-            _context.AddCommand(() => _dbSet.DeleteOneAsync(filter));
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
+        public void Dispose() => _context?.Dispose();
     }
 }

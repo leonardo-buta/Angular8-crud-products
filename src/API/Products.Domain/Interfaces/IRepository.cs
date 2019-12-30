@@ -10,9 +10,8 @@ namespace Products.Domain.Interfaces
         void Add(TEntity obj);
         Task<TEntity> GetById(Guid id);
         Task<IEnumerable<TEntity>> GetAll();
-        void Update(Guid id, UpdateDefinition<TEntity> update);
-        void Remove(Guid id);
-        Task<long> Count(FilterDefinition<TEntity> filter);
+        void Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update);
         void Delete(FilterDefinition<TEntity> filter);
+        Task<long> Count(FilterDefinition<TEntity> filter);        
     }
 }

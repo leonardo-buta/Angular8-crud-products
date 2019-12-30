@@ -52,6 +52,8 @@ namespace Products.Application.Services
 
             if (count == 0) return false;
 
+            var filter = Builders<Product>.Filter.Eq(x => x.Id, id);
+
             var update = Builders<Product>.Update
                 .Set(x => x.Name, productDto.Name)
                 .Set(x => x.Description, productDto.Description)
@@ -59,7 +61,7 @@ namespace Products.Application.Services
                 .Set(x => x.Active, productDto.Active)
                 .CurrentDate(x => x.LastModified);
 
-            _productRepository.Update(id, update);
+            _productRepository.Update(filter, update);
             
             await _uow.Commit();
 
