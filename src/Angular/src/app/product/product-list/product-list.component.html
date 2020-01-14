@@ -1,0 +1,29 @@
+<h2>Product Details</h2>
+<button id="addProduct" class="btn btn-success float-right" (click)="delete">New Product</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="hidden">Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th colspan="2">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td class="hidden">{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.price}}</td>
+            <td>
+                <button class="btn btn-success" (click)="edit">Edit</button>
+            </td>
+            <td>
+                <button class="btn btn-success" (click)="edit">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
