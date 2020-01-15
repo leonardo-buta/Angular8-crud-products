@@ -7,23 +7,24 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th colspan="2">Actions</th>
+            <th id="thAction" colspan="3">Actions</th>
         </tr>
     </thead>
-
     <tbody>
         <tr *ngFor="let product of products">
             <td class="hidden">{{product.id}}</td>
             <td>{{product.name}}</td>
             <td>{{product.description}}</td>
             <td>{{product.price}}</td>
-            <td>
-                <button class="btn btn-success" (click)="edit">Edit</button>
+            <td class="tdAction">
+                <fa-icon [icon]="['fas', 'edit']"></fa-icon>
             </td>
-            <td>
-                <button class="btn btn-success" (click)="edit">Delete</button>
+            <td class="tdAction">
+                <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+            </td>
+            <td class="tdAction">
+                <fa-icon [icon]="['fas', 'search']"></fa-icon>
             </td>
         </tr>
     </tbody>
-
 </table>

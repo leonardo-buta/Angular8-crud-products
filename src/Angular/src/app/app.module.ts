@@ -1,15 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, NgModel } from '@angular/forms';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { ProductAddComponent } from './product/product-add/product-add.component';
 import { ProductEditComponent } from './product/product-edit/product-edit.component';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { HttpClientModule } from '@angular/common/http';
-import { ProductService } from "./service/product.service";
 import { ProductListComponent } from './product/product-list/product-list.component';
+
+import { ProductService } from "./service/product.service";
+
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faEdit, faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [
@@ -23,9 +27,14 @@ import { ProductListComponent } from './product/product-list/product-list.compon
     ReactiveFormsModule,
     AppRoutingModule,
     SlimLoadingBarModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(library: FaIconLibrary) {
+    library.addIcons(faEdit, faTrashAlt, faSearch);
+  }
+}
