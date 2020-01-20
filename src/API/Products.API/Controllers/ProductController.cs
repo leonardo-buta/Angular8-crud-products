@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application.Interfaces;
 using Products.Domain.DTO;
+using Products.Domain.Parameters;
 
 namespace Products.API.Controllers
 {
@@ -19,11 +20,11 @@ namespace Products.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] ProductParameters parameters)
         {
             try
             {
-                var results = await _productAppService.GetAll();
+                var results = await _productAppService.Filter(parameters);
                 return Ok(results);
             }
             catch (Exception ex)

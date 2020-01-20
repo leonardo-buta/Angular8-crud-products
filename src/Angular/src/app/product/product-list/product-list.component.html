@@ -1,6 +1,6 @@
 <h2>Product Details</h2>
 <button id="addProduct" class="btn btn-success float-right" (click)="delete">New Product</button>
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th class="hidden">Id</th>
@@ -15,7 +15,7 @@
             <td class="hidden">{{product.id}}</td>
             <td>{{product.name}}</td>
             <td>{{product.description}}</td>
-            <td>{{product.price}}</td>
+            <td>${{product.price.toFixed(2)}}</td>
             <td class="tdAction">
                 <fa-icon [icon]="['fas', 'edit']"></fa-icon>
             </td>
@@ -28,3 +28,7 @@
         </tr>
     </tbody>
 </table>
+
+<ngb-pagination [(collectionSize)]="collectionSize" [(page)]="page" [(pageSize)]="pageSize" [maxSize]="8"
+    [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="loadProducts()">
+</ngb-pagination>

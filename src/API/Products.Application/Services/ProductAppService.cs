@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Products.Application.Interfaces;
 using Products.Domain.DTO;
 using Products.Domain.Interfaces;
 using Products.Domain.Models;
+using Products.Domain.Parameters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Products.Application.Services
@@ -34,10 +37,27 @@ namespace Products.Application.Services
             await _uow.Commit();
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAll()
+        public async Task<PaginationResultDTO<ProductDto>> Filter(ProductParameters parameters)
         {
-            var results = _mapper.Map<IEnumerable<ProductDto>>(await _productRepository.GetAll());
-            return results;
+            var query = _productRepository.GetAllAsQueryable();            
+
+            if (!string.IsNullOrEmpty(parameters.Name))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(parameters.Name.ToLower()));
+            }
+
+            var list = await query.OrderBy(x => x.Name)
+                .Skip((parameters.Page - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
+
+            var result = new PaginationResultDTO<ProductDto>
+            {
+                Result = _mapper.Map<IEnumerable<ProductDto>>(list),
+                CollectionSize = await query.CountAsync()
+            };
+
+            return result;
         }
 
         public async Task<ProductDto> GetById(Guid id)

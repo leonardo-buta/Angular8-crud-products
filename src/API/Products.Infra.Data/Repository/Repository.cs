@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Products.Domain.Interfaces;
 using Products.Infra.Data.Context;
 using System;
@@ -25,6 +26,8 @@ namespace Products.Infra.Data.Repository
         public virtual async Task<TEntity> GetById(Guid id) => (await _dbSet.FindAsync<TEntity>(Builders<TEntity>.Filter.Eq("_id", id))).FirstOrDefault();
 
         public virtual async Task<IEnumerable<TEntity>> GetAll() => (await _dbSet.FindAsync(Builders<TEntity>.Filter.Empty)).ToList();
+
+        public virtual IMongoQueryable<TEntity> GetAllAsQueryable() => _dbSet.AsQueryable(new AggregateOptions() { Collation = new Collation("en") });
 
         public virtual void Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update) => _context.AddCommand(async () => await _dbSet.UpdateOneAsync(filter, update));
 

@@ -18,7 +18,7 @@ export class ProductService {
       .subscribe(res => console.log('Done'));
   }
 
-  getProducts() {
-    return this.http.get(`${this.uri}/api/Product`);
+  getProducts(page: number, name: string) {
+    return this.http.get(`${this.uri}/api/Product?page=${page}&name=${name}`);
   }
 }

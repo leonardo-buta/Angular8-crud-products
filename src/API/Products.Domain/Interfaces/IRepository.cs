@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Products.Domain.Interfaces
         Task<IEnumerable<TEntity>> GetAll();
         void Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> update);
         void Delete(FilterDefinition<TEntity> filter);
-        Task<long> Count(FilterDefinition<TEntity> filter);        
+        Task<long> Count(FilterDefinition<TEntity> filter);
+        IMongoQueryable<TEntity> GetAllAsQueryable();
     }
 }
