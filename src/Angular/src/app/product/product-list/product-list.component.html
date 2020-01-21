@@ -26,7 +26,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Price</th>
-                    <th id="thAction" colspan="3">Actions</th>
+                    <th id="thAction" colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +36,7 @@
                     <td>{{product.description}}</td>
                     <td>$ {{product.price.toFixed(2)}}</td>
                     <td class="tdAction">
-                        <fa-icon [icon]="['fas', 'edit']"></fa-icon>
-                    </td>
-                    <td class="tdAction">
-                        <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                        <fa-icon [icon]="['fas', 'edit']" (click)="openModal(editProductModal, product)"></fa-icon>
                     </td>
                     <td class="tdAction">
                         <fa-icon [icon]="['fas', 'search']"></fa-icon>
@@ -52,3 +49,41 @@
         </ngb-pagination>
     </div>
 </div>
+
+<ng-template #editProductModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editProductLabel">Edit Product</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+                <label class="col-md-2">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName="name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2">Description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="3" formControlName="description"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2">Price</label>
+                <div class="col-sm-10 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control" formControlName="price" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

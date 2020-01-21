@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/service/product.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Product from 'src/app/models/Product';
 
 @Component({
@@ -10,6 +11,7 @@ import Product from 'src/app/models/Product';
 })
 
 export class ProductListComponent implements OnInit {
+  editForm: FormGroup;
   searchForm: FormGroup;
   products: Product[];
   page: number = 1;
@@ -17,16 +19,26 @@ export class ProductListComponent implements OnInit {
   collectionSize: number;
   previousSearch: string = '';
 
-  constructor(private fb: FormBuilder, private ps: ProductService) {
-    this.createForm();
-  }
-
-  createForm() {
-    this.searchForm = this.fb.group({ name });
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private ps: ProductService) {
+    this.createEditForm();
+    this.createSearchForm();
   }
 
   ngOnInit() {
     this.loadProducts();
+  }
+
+  createEditForm() {
+    this.editForm = this.fb.group({
+      id: ['', Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      price: ['', Validators.required]
+    });
+  }
+
+  createSearchForm() {
+    this.searchForm = this.fb.group({ name });
   }
 
   loadProducts() {
@@ -45,5 +57,20 @@ export class ProductListComponent implements OnInit {
         this.collectionSize = data.collectionSize;
         this.pageSize = data.pageSize;
       });
+  }
+
+  openModal(targetModal: any, product: Product) {
+    this.modalService.open(targetModal, { size: 'lg', backdrop: 'static' });
+    this.editForm.patchValue({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price.toFixed(2)
+    })
+  }
+
+  onSubmit() {
+    this.modalService.dismissAll();
+    this.ps.editProduct(this.editForm.value);
   }
 }

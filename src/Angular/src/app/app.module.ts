@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductAddComponent } from './product/product-add/product-add.component';
 import { ProductEditComponent } from './product/product-edit/product-edit.component';
@@ -30,7 +30,8 @@ import { faEdit, faTrashAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
     SlimLoadingBarModule,
     HttpClientModule,
     FontAwesomeModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgbModalModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
