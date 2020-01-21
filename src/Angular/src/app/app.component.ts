@@ -16,7 +16,7 @@ import {
 })
 
 export class AppComponent {
-  title = 'angular8-crud-products';
+  title = 'Products CRUD';
 
   constructor(private loadingBar: SlimLoadingBarService, private router: Router) {
     this.router.events.subscribe((event: Event) => {

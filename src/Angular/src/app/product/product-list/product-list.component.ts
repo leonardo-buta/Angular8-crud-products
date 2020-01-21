@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/service/product.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import Product from 'src/app/models/Product';
 
 @Component({
@@ -9,20 +10,36 @@ import Product from 'src/app/models/Product';
 })
 
 export class ProductListComponent implements OnInit {
+  searchForm: FormGroup;
   products: Product[];
   page: number = 1;
   pageSize: number;
   collectionSize: number;
-  name: string = '';
+  previousSearch: string = '';
 
-  constructor(private ps: ProductService) { }
+  constructor(private fb: FormBuilder, private ps: ProductService) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.searchForm = this.fb.group({ name });
+  }
 
   ngOnInit() {
     this.loadProducts();
   }
 
   loadProducts() {
-    this.ps.getProducts(this.page, this.name)
+    let name = this.searchForm.controls.name.value;
+
+    // Check if search input is different than previous and changes back to page 1
+    if (this.previousSearch !== name) {
+      this.page = 1;
+    }
+
+    this.previousSearch = name;
+
+    this.ps.getProducts(this.page, name)
       .subscribe((data: any) => {
         this.products = data.result;
         this.collectionSize = data.collectionSize;
